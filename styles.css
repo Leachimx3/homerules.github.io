@@ -275,7 +275,7 @@ img { max-width: 100%; display: block; }
 /* ---------- Mascota animada en el hero ---------- */
 .hero__mascot {
   position: absolute;
-  left: 3%; top: 50%;
+  left: 12%; top: 50%;
   transform: translateY(-50%);
   width: clamp(140px, 20vw, 280px);
   z-index: 2;
@@ -552,12 +552,7 @@ img { max-width: 100%; display: block; }
   .nav__links.open { transform: translateX(0); }
   .nav__toggle { display: flex; }
   .problem__grid { grid-template-columns: 1fr; gap: 2rem; }
-  .hero__mascot { 
-    position: relative;
-    right: auto; bottom: auto;
-    width: 130px;
-    margin: 1rem auto 0;
-  }
+  .hero__mascot { display: none; }
   .steps { padding-left: 0; }
   .steps::before { left: 29px; }
   .step__num { width: 48px; height: 48px; font-size: 1.4rem; }
