@@ -141,9 +141,12 @@ updateUI();
    MODAL de casos reales (sección Problema)
    ========================================================= */
 const casosModal = document.getElementById("casosModal");
-const openCasos = document.getElementById("openCasos");
+// Todos los íconos de advertencia que abren el modal
+const openCasosBtns = ["openCasos", "openCasosMovil"]
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
 
-if (casosModal && openCasos) {
+if (casosModal && openCasosBtns.length) {
   const openModal = () => {
     casosModal.classList.add("is-open");
     casosModal.setAttribute("aria-hidden", "false");
@@ -153,7 +156,7 @@ if (casosModal && openCasos) {
     casosModal.setAttribute("aria-hidden", "true");
   };
 
-  openCasos.addEventListener("click", openModal);
+  openCasosBtns.forEach((btn) => btn.addEventListener("click", openModal));
 
   // Cerrar con la X o al hacer clic en el fondo (elementos con data-close)
   casosModal.querySelectorAll("[data-close]").forEach((el) => {
