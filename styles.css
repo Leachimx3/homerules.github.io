@@ -335,13 +335,18 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Solución: intro animada tipo terminal ---------- */
 /* La sección solución no usa el padding normal cuando muestra la intro */
-.slide.solution { padding: 0; overflow: hidden; }
+.slide.solution {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  justify-content: flex-start;
+}
 
 /* Capa de intro a pantalla completa, fondo oscuro estilo terminal */
 .sol-intro {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: center;

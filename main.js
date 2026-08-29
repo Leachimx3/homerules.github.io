@@ -179,27 +179,41 @@ document.addEventListener("keydown", (e) => {
    SOLUCIÓN: intro animada (frases) que da paso al contenido
    ========================================================= */
 const solutionSlide = document.querySelector("[data-solution]");
+const solIntro = document.getElementById("solIntro");
 if (solutionSlide) {
-  let played = false;
   const TOTAL = 6200; // duración total de las 2 frases (ms), coincide con el CSS
+  let timer = null;
 
-  const runIntro = () => {
-    if (played) return;
-    played = true;
-    setTimeout(() => solutionSlide.classList.add("is-done"), TOTAL);
+  const finishIntro = () => {
+    clearTimeout(timer);
+    solutionSlide.classList.add("is-done");
   };
 
-  // Arranca la secuencia cuando la diapositiva de Solución entra en vista
+  const runIntro = () => {
+    // Reinicia: quita is-done y reinicia las animaciones de las frases
+    clearTimeout(timer);
+    solutionSlide.classList.remove("is-done");
+    if (solIntro) {
+      solIntro.querySelectorAll(".sol-intro__phrase").forEach((el) => {
+        el.style.animation = "none";
+        void el.offsetWidth;      // fuerza reflow para reiniciar la animación
+        el.style.animation = "";
+      });
+    }
+    timer = setTimeout(finishIntro, TOTAL);
+  };
+
+  // Arranca (o reinicia) la secuencia cada vez que la diapositiva entra en vista
   const solObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          runIntro();
-          solObserver.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) runIntro();
       });
     },
-    { threshold: 0.6, root: document.getElementById("deck") }
+    { threshold: 0.5, root: document.getElementById("deck") }
   );
   solObserver.observe(solutionSlide);
+
+  // Permitir saltar la intro con un clic
+  if (solIntro) solIntro.addEventListener("click", finishIntro);
 }
