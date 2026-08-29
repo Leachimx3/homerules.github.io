@@ -68,25 +68,26 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
 }
-/* El contenido se centra con margin auto: si cabe queda centrado,
-   y si no cabe, el scroll llega hasta el borde superior sin recortar */
-/* Centra el contenido; si no cabe, alinea arriba y deja hacer scroll
-   sin que el header fijo tape el título (safe center) */
-.slide.section { justify-content: safe center; }
-/* Las secciones dejan de limitar su ancho: ocupan la slide y se centran */
+/* Las secciones ocupan la slide. El contenido se agrupa en un bloque
+   que se centra vertical con margin auto (permite scroll si no cabe). */
 .slide.section {
   max-width: none;
   width: 100%;
   margin: 0;
   /* padding-top amplio para librar SIEMPRE la barra de navegación fija */
-  padding: 6.5rem 1.2rem 3rem;
+  padding: 6rem 1.2rem 2.5rem;
 }
+/* Todos los hijos directos se centran horizontalmente y se agrupan */
 .slide.section > * {
   width: 100%;
   max-width: var(--maxw);
   margin-left: auto;
   margin-right: auto;
+  flex-shrink: 0;
 }
+/* Empuje que centra el bloque verticalmente cuando sobra espacio */
+.slide.section > :first-child { margin-top: auto; }
+.slide.section > :last-child { margin-bottom: auto; }
 
 /* Flechas de navegación */
 .deck__arrow {
@@ -393,16 +394,17 @@ img { max-width: 100%; display: block; }
 .warn-icon:hover { transform: scale(1.18); }
 .warn-icon:active { transform: scale(1); }
 
-/* Cuadrícula de 6 riesgos */
+/* Cuadrícula de 6 riesgos: 3 columnas x 2 filas de altura controlada */
 .risks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
   gap: clamp(.7rem, 1.6vh, 1.2rem);
 }
-/* Tarjeta con volteo 3D (flip) al pasar el mouse */
+/* Tarjeta con volteo 3D (flip) al pasar el mouse.
+   Altura relativa a la pantalla para que las 2 filas quepan sin scroll. */
 .risk {
-  aspect-ratio: 4 / 3;
-  max-height: 30vh;             /* que no crezca de más en pantallas altas */
+  height: clamp(120px, 26vh, 220px);
   perspective: 1000px;          /* profundidad para el giro 3D */
   cursor: pointer;
 }
