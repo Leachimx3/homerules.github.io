@@ -368,7 +368,9 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
   animation: scan 8s linear infinite;
 }
-/* Frases gigantes en amarillo con glow tipo fósforo */
+/* Frases gigantes en amarillo con glow tipo fósforo.
+   La visibilidad la controla el JS con la clase .is-showing (funciona
+   también con "reducir movimiento" porque no depende solo de keyframes). */
 .sol-intro__phrase {
   position: absolute;
   max-width: 90%;
@@ -379,10 +381,13 @@ img { max-width: 100%; display: block; }
   color: var(--amber);
   text-shadow: 0 0 12px rgba(242,193,78,.7), 0 0 34px rgba(242,193,78,.4);
   opacity: 0;
+  transform: scale(.9);
+  transition: opacity .5s ease, transform .5s ease;
 }
-/* Secuencia: frase 1, luego frase 2 */
-.sol-intro__phrase--1 { animation: solPhrase1 3.4s ease forwards; }
-.sol-intro__phrase--2 { animation: solPhrase2 3.4s ease 2.6s forwards; }
+.sol-intro__phrase.is-showing {
+  opacity: 1;
+  transform: scale(1);
+}
 
 /* La hoja de contenido empieza oculta y aparece al terminar la intro */
 .sol-content {
@@ -394,24 +399,8 @@ img { max-width: 100%; display: block; }
 .slide.solution.is-done .sol-content { opacity: 1; }
 .slide.solution.is-done { justify-content: safe center; display: flex; flex-direction: column; }
 
-@keyframes solPhrase1 {
-  0% { opacity: 0; transform: scale(.85); }
-  15% { opacity: 1; transform: scale(1); }
-  75% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.1); }
-}
-@keyframes solPhrase2 {
-  0% { opacity: 0; transform: scale(.85); }
-  18% { opacity: 1; transform: scale(1); }
-  78% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.1); }
-}
-/* Sin animación: mostrar el contenido directamente, ocultar la intro */
-@media (prefers-reduced-motion: reduce) {
-  .sol-intro { display: none; }
-  .sol-content { opacity: 1; }
-  .slide.solution { padding: 6rem 1.2rem 2.5rem; }
-}
+/* Nota: la intro de solución es contenido esencial, no decorativo,
+   así que se muestra también con "reducir movimiento" (el JS la controla). */
 
 /* ---------- Solución (tarjetas) ---------- */
 .solution__intro,
