@@ -401,13 +401,16 @@ img { max-width: 100%; display: block; }
   grid-auto-rows: minmax(0, 1fr);
   gap: clamp(.7rem, 1.6vh, 1.2rem);
 }
-/* Variante con solo 2 tarjetas, centradas y más anchas */
+/* Variante con solo 2 tarjetas: más grandes para ocupar la pantalla */
 .risks--duo {
   grid-template-columns: repeat(2, 1fr);
-  max-width: 620px;
+  max-width: 900px;
+  gap: clamp(1rem, 3vw, 2.5rem);
   margin: 0 auto;
 }
-.risks--duo .risk { height: clamp(160px, 34vh, 280px); }
+.risks--duo .risk { height: clamp(220px, 48vh, 460px); }
+.risks--duo .risk__title { font-size: 2.2rem; }
+.risks--duo .risk__text { font-size: 1.05rem; }
 /* Tarjeta con volteo 3D (flip) al pasar el mouse.
    Altura relativa a la pantalla para que las 2 filas quepan sin scroll. */
 .risk {
