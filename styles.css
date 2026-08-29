@@ -12,7 +12,7 @@
   --ink: #24211c;
   --paper: #e9dcbb;
   --shadow: rgba(36, 33, 28, 0.35);
-  --glow: rgba(242, 193, 78, 0.55);   /* brillo ámbar tipo terminal */
+  --glow: rgba(242, 193, 78, 0.28);   /* brillo ámbar tipo terminal (suave) */
 
   --font-display: "Bebas Neue", Impact, sans-serif;
   --font-body: "Oswald", Arial, sans-serif;
@@ -575,14 +575,14 @@ img { max-width: 100%; display: block; }
   inset: 0;
   z-index: 45;
   pointer-events: none;
-  /* Líneas horizontales de barrido (scanlines) */
+  /* Líneas horizontales de barrido (scanlines) más sutiles */
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(36, 33, 28, 0.10) 0px,
-      rgba(36, 33, 28, 0.10) 1px,
+      rgba(36, 33, 28, 0.04) 0px,
+      rgba(36, 33, 28, 0.04) 1px,
       transparent 2px,
-      transparent 4px
+      transparent 6px
     );
   mix-blend-mode: multiply;
   animation: crtFlicker 4s infinite steps(60);
@@ -597,9 +597,9 @@ img { max-width: 100%; display: block; }
   border: 3px solid var(--ink);
   border-radius: 22px;
   box-shadow:
-    inset 0 0 120px rgba(36, 33, 28, 0.45),   /* viñeta oscura */
-    inset 0 0 30px var(--glow),               /* brillo interior ámbar */
-    0 0 0 6px rgba(31, 111, 139, 0.25);        /* halo azul acero exterior */
+    inset 0 0 90px rgba(36, 33, 28, 0.22),    /* viñeta suave */
+    inset 0 0 20px var(--glow),               /* brillo interior ámbar tenue */
+    0 0 0 5px rgba(31, 111, 139, 0.15);        /* halo azul acero exterior */
 }
 
 /* Encabezado tipo terminal en cada slide */
@@ -624,15 +624,15 @@ img { max-width: 100%; display: block; }
 .section__title,
 .hero__title-big {
   text-shadow:
-    0 0 6px var(--glow),
-    0 0 18px rgba(242, 193, 78, 0.35);
+    0 0 4px var(--glow),
+    0 0 12px rgba(242, 193, 78, 0.18);
 }
 /* El hero ya tiene un text-shadow decorativo; le sumamos glow sutil */
 .hero__title-big {
   text-shadow:
     5px 5px 0 var(--amber),
     8px 8px 0 var(--steel),
-    0 0 14px var(--glow);
+    0 0 10px var(--glow);
 }
 
 /* Cursor parpadeante después de cada título de sección */
