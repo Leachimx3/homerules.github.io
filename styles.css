@@ -401,6 +401,13 @@ img { max-width: 100%; display: block; }
   grid-auto-rows: minmax(0, 1fr);
   gap: clamp(.7rem, 1.6vh, 1.2rem);
 }
+/* Variante con solo 2 tarjetas, centradas y más anchas */
+.risks--duo {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 620px;
+  margin: 0 auto;
+}
+.risks--duo .risk { height: clamp(160px, 34vh, 280px); }
 /* Tarjeta con volteo 3D (flip) al pasar el mouse.
    Altura relativa a la pantalla para que las 2 filas quepan sin scroll. */
 .risk {

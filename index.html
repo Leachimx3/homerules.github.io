@@ -142,35 +142,32 @@
       <h2 class="section__title">Llamadas y SMS peligrosos</h2>
     </div>
 
-    <div class="callsms">
-      <p class="callsms__lead reveal">
-        No todo el peligro está en las redes sociales. Las llamadas entrantes y los mensajes SMS
-        siguen siendo una vía directa hacia el menor, sin filtros y difícil de vigilar para los padres.
-      </p>
-
-      <div class="callsms__grid">
-        <article class="callsms__card reveal">
-          <div class="callsms__icon">📞</div>
-          <h3 class="callsms__title">Llamadas de desconocidos</h3>
-          <p>Números que el menor no conoce pueden usarse para engañarlo, asustarlo o sacarle información personal como su dirección o rutina.</p>
+    <!-- 2 tarjetas con volteo (mismo estilo que Riesgos del Internet) -->
+    <div class="risks-wrap">
+      <div class="risks risks--duo">
+        <article class="risk">
+          <div class="risk__inner">
+            <div class="risk__face risk__front">
+              <img class="risk__img" src="assets/llamada.svg" alt="Llamadas de desconocidos" />
+            </div>
+            <div class="risk__face risk__back">
+              <h3 class="risk__title">Llamadas de desconocidos</h3>
+              <p class="risk__text">Números desconocidos que buscan engañar, asustar o sacarle al menor información personal como su dirección o su rutina.</p>
+            </div>
+          </div>
         </article>
-        <article class="callsms__card reveal">
-          <div class="callsms__icon">💬</div>
-          <h3 class="callsms__title">SMS con enlaces (smishing)</h3>
-          <p>Mensajes que fingen ser de un banco, un premio o una app para que el menor haga clic en enlaces que roban datos o instalan software malicioso.</p>
-        </article>
-        <article class="callsms__card reveal">
-          <div class="callsms__icon">🕵️</div>
-          <h3 class="callsms__title">Suplantación de identidad</h3>
-          <p>Adultos que se hacen pasar por otro menor o por un familiar para ganarse la confianza del niño a través de llamadas o mensajes.</p>
-        </article>
-        <article class="callsms__card reveal">
-          <div class="callsms__icon">💰</div>
-          <h3 class="callsms__title">Estafas y cargos ocultos</h3>
-          <p>Mensajes que invitan a responder a números de tarificación especial o suscribirse a servicios que generan cobros en la línea.</p>
+        <article class="risk">
+          <div class="risk__inner">
+            <div class="risk__face risk__front">
+              <img class="risk__img" src="assets/sms.svg" alt="SMS peligrosos" />
+            </div>
+            <div class="risk__face risk__back">
+              <h3 class="risk__title">SMS peligrosos</h3>
+              <p class="risk__text">Mensajes con enlaces falsos (smishing) que fingen ser de un banco o un premio para robar datos o instalar software malicioso.</p>
+            </div>
+          </div>
         </article>
       </div>
-
       <button class="warn-icon" id="openCasosMovil" aria-label="Ver casos reales" title="Ver casos reales">⚠️</button>
     </div>
   </section>
