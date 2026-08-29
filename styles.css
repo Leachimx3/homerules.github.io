@@ -232,7 +232,9 @@ img { max-width: 100%; display: block; }
   padding: 6rem 1.2rem 3rem;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 40%, var(--amber) 0%, var(--amber-deep) 45%, var(--steel-deep) 120%);
+    radial-gradient(ellipse at 50% 40%, rgba(224,168,58,0.85) 0%, rgba(224,168,58,0.75) 40%, rgba(18,82,95,0.92) 100%),
+    url('assets/imagen1.png') center center / contain no-repeat;
+  background-color: var(--steel-deep);
 }
 /* Líneas de "escáner" retro sobre el hero */
 .hero__scanlines {
