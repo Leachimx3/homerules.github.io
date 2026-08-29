@@ -59,11 +59,17 @@ function goTo(index) {
 }
 
 // --- Actualizar puntos, flechas y barra de progreso ---
+let lastNotified = -1;
 function updateUI() {
   dots.forEach((d, i) => d.classList.toggle("is-active", i === current));
   prevBtn.disabled = current === 0;
   nextBtn.disabled = current === slides.length - 1;
   progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+  // Avisa de un cambio real de diapositiva (para animaciones por slide)
+  if (current !== lastNotified) {
+    lastNotified = current;
+    if (typeof window.__onSlideChange === "function") window.__onSlideChange(current);
+  }
 }
 
 // --- Detectar la diapositiva visible al hacer scroll ---
@@ -182,17 +188,18 @@ const solutionSlide = document.querySelector("[data-solution]");
 const solIntro = document.getElementById("solIntro");
 if (solutionSlide) {
   const TOTAL = 6200; // duración total de las 2 frases (ms), coincide con el CSS
-  let timer = null;
+  const solIndex = slides.indexOf(solutionSlide); // posición de la slide de solución
+  let solTimer = null;
 
   const finishIntro = () => {
-    clearTimeout(timer);
+    clearTimeout(solTimer);
     solutionSlide.classList.add("is-done");
   };
 
   const runIntro = () => {
-    // Reinicia: quita is-done y reinicia las animaciones de las frases
-    clearTimeout(timer);
+    clearTimeout(solTimer);
     solutionSlide.classList.remove("is-done");
+    // Reinicia las animaciones de las frases
     if (solIntro) {
       solIntro.querySelectorAll(".sol-intro__phrase").forEach((el) => {
         el.style.animation = "none";
@@ -200,20 +207,18 @@ if (solutionSlide) {
         el.style.animation = "";
       });
     }
-    timer = setTimeout(finishIntro, TOTAL);
+    solTimer = setTimeout(finishIntro, TOTAL);
   };
 
-  // Arranca (o reinicia) la secuencia cada vez que la diapositiva entra en vista
-  const solObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) runIntro();
-      });
-    },
-    { threshold: 0.5, root: document.getElementById("deck") }
-  );
-  solObserver.observe(solutionSlide);
+  // Expone al sistema del carrusel para dispararla al llegar a la slide
+  window.__onSlideChange = (idx) => {
+    if (idx === solIndex) runIntro();
+    else solutionSlide.classList.remove("is-done"); // reinicia al salir
+  };
 
   // Permitir saltar la intro con un clic
   if (solIntro) solIntro.addEventListener("click", finishIntro);
+
+  // Si al cargar ya estamos en la slide de solución, arranca
+  if (solIndex === 0) runIntro();
 }
