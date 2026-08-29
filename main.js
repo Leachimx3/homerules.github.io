@@ -17,13 +17,14 @@ navLinks.querySelectorAll("a").forEach((link) => {
 
 // --- Animaciones de aparición (IntersectionObserver dentro del deck) ---
 const revealEls = document.querySelectorAll(".reveal");
+const deckEl = document.getElementById("deck");
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add("is-visible");
     });
   },
-  { threshold: 0.2, root: null }
+  { threshold: 0.1, root: deckEl }   /* el deck es el contenedor con scroll */
 );
 revealEls.forEach((el) => revealObserver.observe(el));
 
