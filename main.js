@@ -134,3 +134,33 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
 // --- Estado inicial ---
 updateUI();
+
+
+/* =========================================================
+   MODAL de casos reales (sección Problema)
+   ========================================================= */
+const casosModal = document.getElementById("casosModal");
+const openCasos = document.getElementById("openCasos");
+
+if (casosModal && openCasos) {
+  const openModal = () => {
+    casosModal.classList.add("is-open");
+    casosModal.setAttribute("aria-hidden", "false");
+  };
+  const closeModal = () => {
+    casosModal.classList.remove("is-open");
+    casosModal.setAttribute("aria-hidden", "true");
+  };
+
+  openCasos.addEventListener("click", openModal);
+
+  // Cerrar con la X o al hacer clic en el fondo (elementos con data-close)
+  casosModal.querySelectorAll("[data-close]").forEach((el) => {
+    el.addEventListener("click", closeModal);
+  });
+
+  // Cerrar con la tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && casosModal.classList.contains("is-open")) closeModal();
+  });
+}

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Presentación retro-futurista de un proyecto" />
-  <title>NOMBRE DEL PROYECTO — Presentación</title>
+  <title>Home Rules — Presentación</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet" />
@@ -41,11 +41,11 @@
     </div>
     <div class="hero__content reveal">
       <h1 class="hero__title">
-        <span class="hero__title-top">!Feliz y Seguro!</span>
+        <span class="hero__title-top">¡Feliz y Seguro!</span>
         <span class="hero__title-big">Home Rules</span>
       </h1>
       <p class="hero__subtitle">
-        Home Rules es un monitoreo parental para móviles, que permite al padre de familia monitorear a su hijo de forma remota,tambien notifica riesgos: grooming y fraudes,bloquea y timeriza aplicaciones así mismo ,reporta el uso del móvil de su hijo , ubicación y además educa en tiempo real.
+        Home Rules es un monitoreo parental para móviles, que permite al padre de familia monitorear a su hijo de forma remota, también notifica riesgos: grooming y fraudes, bloquea y temporiza aplicaciones, reporta el uso del móvil de su hijo, ubicación y además educa en tiempo real.
       </p>
       <div class="hero__actions">
         <a href="#problema" class="btn btn--primary">Conocer más</a>
@@ -58,29 +58,58 @@
   <!-- 2. PROBLEMA -->
   <section class="slide section problem" id="problema">
     <div class="section__head reveal">
-      <h2 class="section__title">El problema</h2>
+      <p class="section__eyebrow">// EL PROBLEMA</p>
+      <h2 class="section__title">Riesgos del Internet</h2>
+      <button class="warn-btn" id="openCasos" aria-label="Ver casos reales">
+        <span class="warn-btn__icon">⚠️</span>
+        <span class="warn-btn__text">Casos reales</span>
+      </button>
     </div>
-    <div class="problem__grid">
-      <div class="problem__lead reveal">
-        <p>
-          Describe aquí el problema o la necesidad que motivó tu proyecto.
-          Explica a quién afecta y por qué importa.
-        </p>
-      </div>
-      <div class="problem__points">
-        <article class="pain reveal">
-          <span class="pain__mark">✕</span>
-          <p>Primer punto de dolor: qué cuesta tiempo, dinero o esfuerzo hoy.</p>
-        </article>
-        <article class="pain reveal">
-          <span class="pain__mark">✕</span>
-          <p>Segundo punto de dolor: otra dificultad concreta que existe.</p>
-        </article>
-        <article class="pain reveal">
-          <span class="pain__mark">✕</span>
-          <p>Tercer punto de dolor: la consecuencia si no se resuelve.</p>
-        </article>
-      </div>
+
+    <!-- Cuadrícula de 6 riesgos: al pasar el cursor se revela el texto -->
+    <div class="risks">
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo1.svg" alt="Grooming" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Grooming</h3>
+          <p class="risk__text">Adultos que engañan a menores en línea para ganarse su confianza con fines de abuso.</p>
+        </div>
+      </article>
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo2.svg" alt="Ciberacoso" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Ciberacoso</h3>
+          <p class="risk__text">Hostigamiento repetido a través de mensajes, redes o juegos que daña la salud emocional.</p>
+        </div>
+      </article>
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo3.svg" alt="Contenido inapropiado" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Contenido inapropiado</h3>
+          <p class="risk__text">Acceso a material violento, sexual o dañino no apto para la edad del menor.</p>
+        </div>
+      </article>
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo4.svg" alt="Fraudes y estafas" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Fraudes y estafas</h3>
+          <p class="risk__text">Engaños para robar datos, dinero o suplantar identidad aprovechando la confianza del menor.</p>
+        </div>
+      </article>
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo5.svg" alt="Adicción a pantallas" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Adicción a pantallas</h3>
+          <p class="risk__text">Uso excesivo que afecta el sueño, el estudio y la vida social del menor.</p>
+        </div>
+      </article>
+      <article class="risk reveal">
+        <img class="risk__img" src="assets/riesgo6.svg" alt="Exposición de datos" />
+        <div class="risk__overlay">
+          <h3 class="risk__title">Exposición de datos</h3>
+          <p class="risk__text">Compartir ubicación, fotos o información personal que pone en riesgo su seguridad.</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -198,6 +227,22 @@
 
   <!-- Barra de progreso -->
   <div class="deck__progress" id="deckProgress"></div>
+
+  <!-- Modal de casos reales -->
+  <div class="modal" id="casosModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="casosTitle">
+      <button class="modal__close" data-close aria-label="Cerrar">✕</button>
+      <p class="section__eyebrow">// ⚠️ ADVERTENCIA</p>
+      <h3 class="modal__title" id="casosTitle">Casos reales</h3>
+      <div class="modal__content">
+        <p>Aquí van casos verdaderos que muestran por qué estos riesgos son importantes. Reemplaza este texto por tus propios ejemplos.</p>
+        <p><strong>Caso 1:</strong> Describe un caso real de grooming, ciberacoso o fraude que haya afectado a un menor.</p>
+        <p><strong>Caso 2:</strong> Otro ejemplo documentado, con la fuente si la tienes.</p>
+        <p><strong>Caso 3:</strong> Un tercer caso que refuerce la necesidad de monitoreo parental.</p>
+      </div>
+    </div>
+  </div>
 
   <script src="main.js"></script>
 </body>
