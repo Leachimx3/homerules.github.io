@@ -140,31 +140,36 @@ updateUI();
 /* =========================================================
    MODAL de casos reales (sección Problema)
    ========================================================= */
-const casosModal = document.getElementById("casosModal");
-// Todos los íconos de advertencia que abren el modal
-const openCasosBtns = ["openCasos", "openCasosMovil"]
-  .map((id) => document.getElementById(id))
-  .filter(Boolean);
+// Cada botón de advertencia abre su propio modal (botón -> id de modal)
+const modalPairs = [
+  { btn: "openCasos", modal: "casosModal" },
+  { btn: "openCasosMovil", modal: "casosModalMovil" },
+];
 
-if (casosModal && openCasosBtns.length) {
-  const openModal = () => {
-    casosModal.classList.add("is-open");
-    casosModal.setAttribute("aria-hidden", "false");
-  };
-  const closeModal = () => {
-    casosModal.classList.remove("is-open");
-    casosModal.setAttribute("aria-hidden", "true");
-  };
+const openModal = (modal) => {
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+};
+const closeModal = (modal) => {
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+};
 
-  openCasosBtns.forEach((btn) => btn.addEventListener("click", openModal));
+modalPairs.forEach(({ btn, modal }) => {
+  const btnEl = document.getElementById(btn);
+  const modalEl = document.getElementById(modal);
+  if (!btnEl || !modalEl) return;
+
+  btnEl.addEventListener("click", () => openModal(modalEl));
 
   // Cerrar con la X o al hacer clic en el fondo (elementos con data-close)
-  casosModal.querySelectorAll("[data-close]").forEach((el) => {
-    el.addEventListener("click", closeModal);
+  modalEl.querySelectorAll("[data-close]").forEach((el) => {
+    el.addEventListener("click", () => closeModal(modalEl));
   });
+});
 
-  // Cerrar con la tecla Escape
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && casosModal.classList.contains("is-open")) closeModal();
-  });
-}
+// Cerrar cualquier modal abierto con la tecla Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  document.querySelectorAll(".modal.is-open").forEach((m) => closeModal(m));
+});
