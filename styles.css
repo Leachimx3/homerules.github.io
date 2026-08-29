@@ -275,8 +275,7 @@ img { max-width: 100%; display: block; }
 /* ---------- Mascota animada en el hero ---------- */
 .hero__mascot {
   position: absolute;
-  left: 4%; top: 50%;
-  transform: translateY(-50%);
+  left: 3%; bottom: 3%;
   width: clamp(150px, 16vw, 260px);
   z-index: 1;                 /* detrás del texto (que va en z-index 2) */
   animation: mascotEnter 1s ease-out both, mascotFloat 3s ease-in-out 1s infinite;
