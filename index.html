@@ -173,29 +173,46 @@
   </section>
 
   <!-- 3. SOLUCIÓN -->
-  <section class="slide section solution" id="solucion">
-    <div class="section__head reveal">
-      <h2 class="section__title">Protege sus derechos</h2>
+  <section class="slide section solution" id="solucion" data-solution>
+    <!-- Intro animada tipo terminal: dos frases gigantes en secuencia -->
+    <div class="sol-intro" id="solIntro" aria-hidden="true">
+      <div class="sol-intro__scanlines"></div>
+      <h2 class="sol-intro__phrase sol-intro__phrase--1">PROTEGE SUS DERECHOS</h2>
+      <h2 class="sol-intro__phrase sol-intro__phrase--2">EJERCE TU OBLIGACIÓN</h2>
     </div>
-    <div class="solution__intro reveal">
-      <p>Explica en una o dos frases cómo tu proyecto resuelve el problema anterior.</p>
-    </div>
-    <div class="solution__grid">
-      <article class="card reveal">
-        <div class="card__icon">✅</div>
-        <h3 class="card__title">Beneficio 1</h3>
-        <p class="card__text">Qué gana el usuario con tu solución. Sé concreto.</p>
-      </article>
-      <article class="card reveal">
-        <div class="card__icon">⚡</div>
-        <h3 class="card__title">Beneficio 2</h3>
-        <p class="card__text">Otra ventaja clave frente a la forma actual de hacerlo.</p>
-      </article>
-      <article class="card reveal">
-        <div class="card__icon">💡</div>
-        <h3 class="card__title">Beneficio 3</h3>
-        <p class="card__text">Algo que te diferencia o hace única tu propuesta.</p>
-      </article>
+
+    <!-- Hoja de contenido: aparece al terminar la intro -->
+    <div class="sol-content" id="solContent">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">// LA SOLUCIÓN</p>
+        <h2 class="section__title">Protege sus derechos</h2>
+      </div>
+      <div class="risks-wrap">
+        <div class="risks risks--duo">
+          <article class="risk">
+            <div class="risk__inner">
+              <div class="risk__face risk__front">
+                <img class="risk__img" src="assets/solucion1.svg" alt="Monitoreo remoto" />
+              </div>
+              <div class="risk__face risk__back">
+                <h3 class="risk__title">Monitoreo remoto</h3>
+                <p class="risk__text">El padre supervisa la actividad del móvil de su hijo a distancia, en tiempo real y de forma segura.</p>
+              </div>
+            </div>
+          </article>
+          <article class="risk">
+            <div class="risk__inner">
+              <div class="risk__face risk__front">
+                <img class="risk__img" src="assets/solucion2.svg" alt="Alertas y control" />
+              </div>
+              <div class="risk__face risk__back">
+                <h3 class="risk__title">Alertas y control</h3>
+                <p class="risk__text">Notifica riesgos como grooming o fraude, bloquea apps y educa al menor en tiempo real.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 

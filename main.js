@@ -173,3 +173,33 @@ document.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
   document.querySelectorAll(".modal.is-open").forEach((m) => closeModal(m));
 });
+
+
+/* =========================================================
+   SOLUCIÓN: intro animada (frases) que da paso al contenido
+   ========================================================= */
+const solutionSlide = document.querySelector("[data-solution]");
+if (solutionSlide) {
+  let played = false;
+  const TOTAL = 6200; // duración total de las 2 frases (ms), coincide con el CSS
+
+  const runIntro = () => {
+    if (played) return;
+    played = true;
+    setTimeout(() => solutionSlide.classList.add("is-done"), TOTAL);
+  };
+
+  // Arranca la secuencia cuando la diapositiva de Solución entra en vista
+  const solObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          runIntro();
+          solObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.6, root: document.getElementById("deck") }
+  );
+  solObserver.observe(solutionSlide);
+}
