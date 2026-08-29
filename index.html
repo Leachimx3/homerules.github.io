@@ -30,8 +30,11 @@
     </div>
   </header>
 
+  <!-- Contenedor de diapositivas horizontales -->
+  <main class="deck" id="deck">
+
   <!-- 1. PRESENTACIÓN (HERO) -->
-  <section class="hero" id="hero">
+  <section class="slide hero" id="hero">
     <div class="hero__scanlines"></div>
     <div class="hero__content reveal">
       <p class="hero__eyebrow">// PRESENTACIÓN</p>
@@ -52,11 +55,11 @@
       <div class="hero__badge-ring"></div>
       <div class="hero__badge-core">☢</div>
     </div>
-    <a href="#problema" class="hero__scroll" aria-label="Bajar">▼</a>
+    <a href="#problema" class="hero__scroll" aria-label="Siguiente">›</a>
   </section>
 
   <!-- 2. PROBLEMA -->
-  <section class="section problem" id="problema">
+  <section class="slide section problem" id="problema">
     <div class="section__head reveal">
       <p class="section__eyebrow">// EL PROBLEMA</p>
       <h2 class="section__title">El problema</h2>
@@ -86,7 +89,7 @@
   </section>
 
   <!-- 3. SOLUCIÓN -->
-  <section class="section solution" id="solucion">
+  <section class="slide section solution" id="solucion">
     <div class="section__head reveal">
       <p class="section__eyebrow">// LA SOLUCIÓN</p>
       <h2 class="section__title">La solución</h2>
@@ -114,7 +117,7 @@
   </section>
 
   <!-- 4. CÓMO FUNCIONA -->
-  <section class="section howitworks" id="como">
+  <section class="slide section howitworks" id="como">
     <div class="section__head reveal">
       <p class="section__eyebrow">// PASO A PASO</p>
       <h2 class="section__title">Cómo funciona</h2>
@@ -145,7 +148,7 @@
   </section>
 
   <!-- 5. COSTOS -->
-  <section class="section pricing" id="costos">
+  <section class="slide section pricing" id="costos">
     <div class="section__head reveal">
       <p class="section__eyebrow">// PLANES Y PRECIOS</p>
       <h2 class="section__title">Costos</h2>
@@ -183,11 +186,22 @@
         <a href="#" class="btn btn--ghost">Elegir</a>
       </article>
     </div>
+    <footer class="footer">
+      <p>© <span id="year"></span> Tu Nombre — Hecho con estilo retro.</p>
+    </footer>
   </section>
 
-  <footer class="footer">
-    <p>© <span id="year"></span> Tu Nombre — Hecho con estilo retro.</p>
-  </footer>
+  </main><!-- /.deck -->
+
+  <!-- Controles del carrusel -->
+  <button class="deck__arrow deck__arrow--prev" id="prevBtn" aria-label="Anterior">‹</button>
+  <button class="deck__arrow deck__arrow--next" id="nextBtn" aria-label="Siguiente">›</button>
+
+  <!-- Puntos indicadores -->
+  <div class="deck__dots" id="deckDots" role="tablist" aria-label="Diapositivas"></div>
+
+  <!-- Barra de progreso -->
+  <div class="deck__progress" id="deckProgress"></div>
 
   <script src="main.js"></script>
 </body>

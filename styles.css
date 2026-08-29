@@ -35,10 +35,105 @@ body {
     radial-gradient(circle at 80% 70%, rgba(31,111,139,0.08), transparent 45%),
     repeating-linear-gradient(0deg, rgba(36,33,28,0.02) 0 2px, transparent 2px 4px);
   line-height: 1.5;
-  overflow-x: hidden;
+  overflow: hidden; /* el scroll lo maneja el deck */
 }
 
 img { max-width: 100%; display: block; }
+
+/* =========================================================
+   DECK: diapositivas horizontales con scroll-snap
+   ========================================================= */
+.deck {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;            /* Firefox */
+}
+.deck::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+.slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow-y: auto;                 /* si el contenido es alto, scroll interno */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Las secciones dejan de limitar su ancho: ocupan la slide y se centran */
+.slide.section {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 6rem 1.2rem 4rem;
+}
+.slide.section > * {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Flechas de navegación */
+.deck__arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 54px; height: 54px;
+  display: grid; place-items: center;
+  font-size: 2.4rem; line-height: 1;
+  font-family: var(--font-display);
+  color: var(--ink);
+  background: var(--amber);
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 4px 4px 0 var(--shadow);
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, opacity .2s ease;
+}
+.deck__arrow:hover { background: var(--amber-deep); }
+.deck__arrow:active { transform: translateY(-50%) scale(.92); }
+.deck__arrow--prev { left: 1.2rem; }
+.deck__arrow--next { right: 1.2rem; }
+.deck__arrow[disabled] { opacity: .25; cursor: default; pointer-events: none; }
+
+/* Puntos indicadores */
+.deck__dots {
+  position: fixed;
+  bottom: 1.6rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex; gap: .7rem;
+}
+.deck__dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--cream);
+  cursor: pointer;
+  padding: 0;
+  transition: background .2s ease, transform .2s ease;
+}
+.deck__dot.is-active { background: var(--steel); transform: scale(1.25); }
+
+/* Barra de progreso superior */
+.deck__progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 5px;
+  width: 0;
+  background: var(--amber);
+  z-index: 60;
+  transition: width .3s ease;
+}
 
 /* ---------- Navegación ---------- */
 .nav {
@@ -127,7 +222,6 @@ img { max-width: 100%; display: block; }
 /* ---------- HERO ---------- */
 .hero {
   position: relative;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -195,11 +289,11 @@ img { max-width: 100%; display: block; }
   animation: pulse 2.5s ease-in-out infinite;
 }
 .hero__scroll {
-  position: absolute; bottom: 1.5rem; left: 50%;
-  transform: translateX(-50%);
-  color: var(--ink); text-decoration: none; font-size: 1.4rem;
+  position: absolute; bottom: 50%; right: 2rem;
+  transform: translateY(50%);
+  color: var(--ink); text-decoration: none; font-size: 2rem;
   z-index: 2;
-  animation: bounce 2s infinite;
+  animation: nudge 1.8s infinite;
 }
 
 /* ---------- Secciones genéricas ---------- */
@@ -406,14 +500,14 @@ img { max-width: 100%; display: block; }
 .plan--featured .plan__features li { border-bottom-color: rgba(244,231,201,0.25); }
 .plan .btn { margin-top: auto; }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer (dentro de la última slide) ---------- */
 .footer {
-  background: var(--ink);
-  color: var(--cream);
+  color: var(--ink);
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.5rem 0 0;
   font-family: var(--font-type);
   letter-spacing: 1px;
+  font-size: .9rem;
 }
 
 /* ---------- Animaciones de aparición ---------- */
@@ -428,6 +522,7 @@ img { max-width: 100%; display: block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse { 0%,100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.12); opacity: 1; } }
 @keyframes bounce { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+@keyframes nudge { 0%,100% { transform: translate(0, 50%); } 50% { transform: translate(10px, 50%); } }
 @keyframes scan { from { background-position: 0 0; } to { background-position: 0 100px; } }
 
 /* ---------- Responsive ---------- */
@@ -451,6 +546,13 @@ img { max-width: 100%; display: block; }
   .steps { padding-left: 0; }
   .steps::before { left: 29px; }
   .step__num { width: 48px; height: 48px; font-size: 1.4rem; }
+
+  /* Deck en móvil: flechas más pequeñas y bajas para no tapar contenido */
+  .deck__arrow { width: 42px; height: 42px; font-size: 1.8rem; }
+  .deck__arrow--prev { left: .5rem; }
+  .deck__arrow--next { right: .5rem; }
+  .deck__dots { bottom: 1rem; }
+  .slide.section { padding: 5rem 1rem 4rem; }
 }
 
 /* Respeta usuarios que prefieren menos movimiento */

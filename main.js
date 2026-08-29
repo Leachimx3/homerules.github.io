@@ -1,5 +1,5 @@
 /* =========================================================
-   Lógica de la plantilla: navegación, animaciones y galería
+   Lógica de la plantilla: diapositivas horizontales + animaciones
    ========================================================= */
 
 // --- Año actual en el footer ---
@@ -11,35 +11,126 @@ const navLinks = document.getElementById("navLinks");
 navToggle.addEventListener("click", () => {
   navLinks.classList.toggle("open");
 });
-// Cerrar el menú al pulsar un enlace
 navLinks.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => navLinks.classList.remove("open"));
 });
 
-// --- Ocultar/mostrar navbar al hacer scroll ---
-const nav = document.getElementById("nav");
-let lastScroll = 0;
-window.addEventListener("scroll", () => {
-  const current = window.scrollY;
-  if (current > lastScroll && current > 120) {
-    nav.classList.add("nav--hidden");
-  } else {
-    nav.classList.remove("nav--hidden");
-  }
-  lastScroll = current;
-});
-
-// --- Animaciones al hacer scroll (IntersectionObserver) ---
+// --- Animaciones de aparición (IntersectionObserver dentro del deck) ---
 const revealEls = document.querySelectorAll(".reveal");
-const observer = new IntersectionObserver(
+const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) entry.target.classList.add("is-visible");
     });
   },
-  { threshold: 0.15 }
+  { threshold: 0.2, root: null }
 );
-revealEls.forEach((el) => observer.observe(el));
+revealEls.forEach((el) => revealObserver.observe(el));
+
+/* =========================================================
+   CARRUSEL / DIAPOSITIVAS HORIZONTALES
+   ========================================================= */
+const deck = document.getElementById("deck");
+const slides = Array.from(deck.querySelectorAll(".slide"));
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const dotsWrap = document.getElementById("deckDots");
+const progress = document.getElementById("deckProgress");
+
+let current = 0;
+
+// --- Crear puntos indicadores ---
+slides.forEach((slide, i) => {
+  const dot = document.createElement("button");
+  dot.className = "deck__dot";
+  dot.setAttribute("role", "tab");
+  dot.setAttribute("aria-label", `Ir a la diapositiva ${i + 1}`);
+  dot.addEventListener("click", () => goTo(i));
+  dotsWrap.appendChild(dot);
+});
+const dots = Array.from(dotsWrap.children);
+
+// --- Ir a una diapositiva concreta ---
+function goTo(index) {
+  current = Math.max(0, Math.min(index, slides.length - 1));
+  slides[current].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+  // El scroll dispara updateUI() vía el listener de scroll
+}
+
+// --- Actualizar puntos, flechas y barra de progreso ---
+function updateUI() {
+  dots.forEach((d, i) => d.classList.toggle("is-active", i === current));
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === slides.length - 1;
+  progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+}
+
+// --- Detectar la diapositiva visible al hacer scroll ---
+let scrollTimer;
+deck.addEventListener("scroll", () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => {
+    const idx = Math.round(deck.scrollLeft / deck.clientWidth);
+    if (idx !== current) current = idx;
+    updateUI();
+  }, 60);
+});
+
+// --- Flechas ---
+prevBtn.addEventListener("click", () => goTo(current - 1));
+nextBtn.addEventListener("click", () => goTo(current + 1));
+
+// --- Teclado: flechas y RePág/AvPág ---
+window.addEventListener("keydown", (e) => {
+  if (["ArrowRight", "PageDown"].includes(e.key)) { goTo(current + 1); e.preventDefault(); }
+  if (["ArrowLeft", "PageUp"].includes(e.key)) { goTo(current - 1); e.preventDefault(); }
+  if (e.key === "Home") { goTo(0); e.preventDefault(); }
+  if (e.key === "End") { goTo(slides.length - 1); e.preventDefault(); }
+});
+
+// --- Rueda del mouse: convierte scroll vertical en avance horizontal ---
+let wheelLock = false;
+deck.addEventListener(
+  "wheel",
+  (e) => {
+    // Si la diapositiva tiene scroll vertical interno pendiente, deja pasar
+    const slide = slides[current];
+    const canScrollDown = slide.scrollTop + slide.clientHeight < slide.scrollHeight - 2;
+    const canScrollUp = slide.scrollTop > 2;
+    const goingDown = e.deltaY > 0;
+    if ((goingDown && canScrollDown) || (!goingDown && canScrollUp)) return;
+
+    e.preventDefault();
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 10) return;
+    wheelLock = true;
+    goTo(current + (goingDown ? 1 : -1));
+    setTimeout(() => (wheelLock = false), 600);
+  },
+  { passive: false }
+);
+
+// --- Swipe táctil ---
+let touchX = null;
+deck.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
+deck.addEventListener("touchend", (e) => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+  touchX = null;
+});
+
+// --- Enlaces del menú y botones internos que apuntan a #id ---
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (e) => {
+    const id = link.getAttribute("href").slice(1);
+    const target = document.getElementById(id);
+    if (target && slides.includes(target)) {
+      e.preventDefault();
+      goTo(slides.indexOf(target));
+    }
+  });
+});
+
+// --- Estado inicial ---
+updateUI();
