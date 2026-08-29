@@ -12,6 +12,7 @@
   --ink: #24211c;
   --paper: #e9dcbb;
   --shadow: rgba(36, 33, 28, 0.35);
+  --glow: rgba(242, 193, 78, 0.55);   /* brillo ámbar tipo terminal */
 
   --font-display: "Bebas Neue", Impact, sans-serif;
   --font-body: "Oswald", Arial, sans-serif;
@@ -57,6 +58,7 @@ img { max-width: 100%; display: block; }
 .deck::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
 .slide {
+  position: relative;
   flex: 0 0 100vw;
   width: 100vw;
   height: 100vh;
@@ -559,4 +561,146 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   CAPA "TERMINAL" (estética Pip-Boy / CRT) con tu paleta
+   Se aplica sobre el diseño existente, sin cambiar colores base
+   ========================================================= */
+
+/* Marco de pantalla + scanlines + viñeta sobre todo el deck */
+.deck::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  /* Líneas horizontales de barrido (scanlines) */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(36, 33, 28, 0.10) 0px,
+      rgba(36, 33, 28, 0.10) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  mix-blend-mode: multiply;
+  animation: crtFlicker 4s infinite steps(60);
+}
+/* Viñeta + esquinas redondeadas tipo tubo CRT + marco */
+.deck::after {
+  content: "";
+  position: fixed;
+  inset: 10px;
+  z-index: 46;
+  pointer-events: none;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 120px rgba(36, 33, 28, 0.45),   /* viñeta oscura */
+    inset 0 0 30px var(--glow),               /* brillo interior ámbar */
+    0 0 0 6px rgba(31, 111, 139, 0.25);        /* halo azul acero exterior */
+}
+
+/* Encabezado tipo terminal en cada slide */
+.slide::before {
+  content: "HOMERULES // SISTEMA DE MONITOREO — v1.0";
+  position: absolute;
+  top: 1rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-family: var(--font-type);
+  font-size: .7rem;
+  letter-spacing: 2px;
+  color: var(--steel-deep);
+  opacity: .8;
+  white-space: nowrap;
+  text-align: center;
+}
+/* En el hero lo ocultamos: ahí manda la navbar y el eyebrow propio */
+.hero::before { display: none; }
+
+/* Brillo (glow) en los títulos, como texto de fósforo */
+.section__title,
+.hero__title-big {
+  text-shadow:
+    0 0 6px var(--glow),
+    0 0 18px rgba(242, 193, 78, 0.35);
+}
+/* El hero ya tiene un text-shadow decorativo; le sumamos glow sutil */
+.hero__title-big {
+  text-shadow:
+    5px 5px 0 var(--amber),
+    8px 8px 0 var(--steel),
+    0 0 14px var(--glow);
+}
+
+/* Cursor parpadeante después de cada título de sección */
+.section__title::before {
+  content: "> ";
+  color: var(--steel);
+}
+.section__eyebrow::after {
+  content: "▋";
+  margin-left: .3rem;
+  animation: caret 1.1s steps(1) infinite;
+}
+
+/* Botones con aire de tecla de terminal */
+.btn {
+  font-family: var(--font-type);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Tarjetas / paneles con leve resplandor interior */
+.card, .pain, .step__body, .plan {
+  position: relative;
+}
+.card::after, .plan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  box-shadow: inset 0 0 20px rgba(242, 193, 78, 0.12);
+}
+
+/* Flechas y puntos con glow para que parezcan LED */
+.deck__arrow { box-shadow: 4px 4px 0 var(--shadow), 0 0 12px var(--glow); }
+.deck__dot.is-active { box-shadow: 0 0 10px var(--glow); }
+
+/* Barra de progreso con resplandor */
+.deck__progress { box-shadow: 0 0 12px var(--glow); }
+
+/* Fondo del deck con un degradado sutil verde-neutro -> tu ámbar/azul
+   Mantiene tu paleta pero da profundidad de "pantalla" */
+.deck {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(242,193,78,0.08), transparent 70%),
+    var(--paper);
+}
+
+/* Animaciones de la capa terminal */
+@keyframes crtFlicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: .85; }
+  98% { opacity: 1; }
+  99% { opacity: .9; }
+}
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
+/* Respeta reduce-motion: sin parpadeos ni flicker */
+@media (prefers-reduced-motion: reduce) {
+  .deck::before { animation: none; }
+  .section__eyebrow::after { animation: none; }
+}
+
+/* En pantallas pequeñas, el encabezado de terminal más discreto */
+@media (max-width: 780px) {
+  .slide::before { font-size: .58rem; top: .7rem; }
+  .deck::after { inset: 6px; border-radius: 16px; }
 }
