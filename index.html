@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=11" />
 </head>
 <body>
   <!-- Barra de navegación -->
@@ -173,13 +173,6 @@
 
   <!-- 3. SOLUCIÓN -->
   <section class="slide section solution" id="solucion" data-solution>
-    <!-- Intro animada tipo terminal: dos frases gigantes en secuencia -->
-    <div class="sol-intro" id="solIntro" aria-hidden="true">
-      <div class="sol-intro__scanlines"></div>
-      <h2 class="sol-intro__phrase sol-intro__phrase--1">PROTEGE SUS DERECHOS</h2>
-      <h2 class="sol-intro__phrase sol-intro__phrase--2">EJERCE TU OBLIGACIÓN</h2>
-    </div>
-
     <!-- Hoja de contenido: aparece al terminar la intro -->
     <div class="sol-content" id="solContent">
       <div class="section__head reveal">
@@ -205,7 +198,7 @@
               </div>
               <div class="risk__face risk__back">
                 <h3 class="risk__title">Responsabilidad como adulto </h3>
-                <p class="risk__text">El artículo 103 establece que Los responsables de los menores deben enseñarles a utilizar la tecnología de forma responsable y segura.</p>
+                <p class="risk__text">El artículo 103 establece que los responsables de los menores deben enseñarles a utilizar la tecnología de forma responsable y segura.</p>
               </div>
             </div>
           </article>
@@ -291,6 +284,13 @@
 
   </main><!-- /.deck -->
 
+  <!-- Intro animada de Solución: fuera del deck para cubrir toda la pantalla -->
+  <div class="sol-intro" id="solIntro" aria-hidden="true">
+    <div class="sol-intro__scanlines"></div>
+    <h2 class="sol-intro__phrase sol-intro__phrase--1">PROTEGE SUS DERECHOS</h2>
+    <h2 class="sol-intro__phrase sol-intro__phrase--2">EJERCE TU OBLIGACIÓN</h2>
+  </div>
+
   <!-- Controles del carrusel -->
   <button class="deck__arrow deck__arrow--prev" id="prevBtn" aria-label="Anterior">‹</button>
   <button class="deck__arrow deck__arrow--next" id="nextBtn" aria-label="Siguiente">›</button>
@@ -333,6 +333,6 @@
     </div>
   </div>
 
-  <script src="main.js?v=10"></script>
+  <script src="main.js?v=11"></script>
 </body>
 </html>
