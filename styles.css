@@ -346,9 +346,11 @@ img { max-width: 100%; display: block; }
    La visibilidad la controla el JS con clases + TRANSICIONES (no animation),
    así funciona también con "reducir movimiento" activado. */
 .sol-intro {
-  position: absolute;
+  position: fixed;               /* cubre toda la ventana, por encima de todo */
   inset: 0;
-  z-index: 30;
+  width: 100vw;
+  height: 100vh;
+  z-index: 80;                   /* por encima del header (50) y controles */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,10 +358,12 @@ img { max-width: 100%; display: block; }
   padding: 1.5rem;
   background:
     radial-gradient(ellipse at 50% 50%, #143b1f 0%, #0a1f10 70%, #060d08 100%);
-  transition: opacity .5s ease;
+  transition: opacity .5s ease, visibility .5s ease;
 }
-/* Cuando termina la intro, se oculta */
-.sol-intro.sol-hide { opacity: 0; pointer-events: none; }
+/* Oculta por defecto y cuando termina/se salta */
+.sol-intro { opacity: 0; visibility: hidden; pointer-events: none; }
+.sol-intro.sol-active { opacity: 1; visibility: visible; pointer-events: auto; }
+.sol-intro.sol-hide { opacity: 0; visibility: hidden; pointer-events: none; }
 
 .sol-intro__scanlines {
   position: absolute; inset: 0;
@@ -369,13 +373,13 @@ img { max-width: 100%; display: block; }
 /* Frases gigantes en amarillo con glow tipo fósforo */
 .sol-intro__phrase {
   position: absolute;
-  max-width: 90%;
+  max-width: 95%;
   font-family: var(--font-display);
-  font-size: clamp(3rem, 11vw, 8rem);
+  font-size: clamp(3.5rem, 14vw, 11rem);
   line-height: .95;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   color: var(--amber);
-  text-shadow: 0 0 12px rgba(242,193,78,.7), 0 0 34px rgba(242,193,78,.4);
+  text-shadow: 0 0 14px rgba(242,193,78,.7), 0 0 40px rgba(242,193,78,.4);
   opacity: 0;
   transform: scale(.92);
   transition: opacity .45s ease, transform .45s ease;

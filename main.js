@@ -185,11 +185,13 @@ document.addEventListener("keydown", (e) => {
    SOLUCIÓN: intro animada (frases) que da paso al contenido
    ========================================================= */
 const solIntro = document.getElementById("solIntro");
-if (solIntro) {
+const solutionSlide = document.querySelector("[data-solution]");
+if (solIntro && solutionSlide) {
+  const solIndex = slides.indexOf(solutionSlide);
   const p1 = solIntro.querySelector(".sol-intro__phrase--1");
   const p2 = solIntro.querySelector(".sol-intro__phrase--2");
   const timers = [];
-  let skipped = false;
+  let running = false;
 
   const clearT = () => { timers.forEach(clearTimeout); timers.length = 0; };
   const on = (el) => el && el.classList.add("sol-on");
@@ -197,7 +199,7 @@ if (solIntro) {
 
   // Secuencia en bucle: frase 1 -> frase 2 -> pausa -> repite
   const loop = () => {
-    if (skipped) return;
+    if (!running) return;
     clearT();
     off(p1); off(p2);
     timers.push(setTimeout(() => on(p1), 200));     // aparece frase 1
@@ -207,14 +209,31 @@ if (solIntro) {
     timers.push(setTimeout(loop, 7000));            // repite
   };
 
-  // Saltar: oculta la intro y detiene la secuencia
-  const skip = () => {
-    skipped = true;
+  // Mostrar la intro a pantalla completa y arrancar la secuencia
+  const startIntro = () => {
+    running = true;
+    solIntro.classList.remove("sol-hide");
+    solIntro.classList.add("sol-active");
+    loop();
+  };
+  // Ocultar la intro y detener
+  const stopIntro = () => {
+    running = false;
     clearT();
+    off(p1); off(p2);
+    solIntro.classList.remove("sol-active");
     solIntro.classList.add("sol-hide");
   };
-  solIntro.addEventListener("click", skip);
 
-  // Arranca el bucle (funciona con o sin reduce-motion porque usa transiciones)
-  loop();
+  // Saltar con clic
+  solIntro.addEventListener("click", stopIntro);
+
+  // El carrusel avisa qué slide está activa: solo mostramos la intro en Solución
+  window.__onSlideChange = (idx) => {
+    if (idx === solIndex) startIntro();
+    else stopIntro();
+  };
+
+  // Si arrancamos ya en la slide de solución
+  if (solIndex === 0) startIntro();
 }
