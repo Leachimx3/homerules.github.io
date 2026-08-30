@@ -176,6 +176,11 @@ img { max-width: 100%; display: block; }
   animation: spin 8s linear infinite;
   display: inline-block;
 }
+.nav__logo-img {
+  height: 38px;
+  width: auto;
+  display: block;
+}
 .nav__links { display: flex; gap: 1.4rem; }
 .nav__links a {
   color: var(--cream);
