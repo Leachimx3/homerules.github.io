@@ -549,7 +549,30 @@ img { max-width: 100%; display: block; }
   padding: 1rem;
   overflow: auto;                /* scroll si el diagrama es muy ancho */
   max-height: 60vh;
+  /* Barra de scroll retro (Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--term-green-dim) #0a0705;
 }
+/* Barra de scroll retro (Chrome/Edge/Safari) */
+.flow__screen::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.flow__screen::-webkit-scrollbar-track {
+  background: #0a0705;                    /* negro */
+  border: 1px solid var(--term-green-dim);
+}
+.flow__screen::-webkit-scrollbar-thumb {
+  background: #1f1608;                    /* casi negro con tinte ámbar */
+  border: 1px solid var(--term-green-dim);
+  border-radius: 2px;
+  box-shadow: inset 0 0 6px rgba(242,193,78,.35);
+}
+.flow__screen::-webkit-scrollbar-thumb:hover {
+  background: #2c2010;
+  box-shadow: inset 0 0 8px rgba(242,193,78,.55);
+}
+.flow__screen::-webkit-scrollbar-corner { background: #0a0705; }
 .flow__diagram {
   display: none;
   margin: 0;
@@ -850,7 +873,8 @@ img { max-width: 100%; display: block; }
 /* ---------- Costos (tablas + precio destacado) ---------- */
 .cost-wrap {
   max-width: 1000px;
-  margin: 0 auto;
+  margin-left: auto;           /* alinea el bloque de costos a la derecha */
+  margin-right: 0;
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 4vh, 2.5rem);
