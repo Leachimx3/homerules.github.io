@@ -871,15 +871,20 @@ img { max-width: 100%; display: block; }
 }
 
 /* ---------- Costos (tablas + precio destacado) ---------- */
-/* La sección de costos usa todo el ancho para poder alinear a la derecha */
+/* Costos en dos columnas: precio a la izquierda, tablas a la derecha */
 .slide.pricing > .cost-wrap { max-width: none; width: 100%; }
 .cost-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;       /* precio y tablas pegados a la derecha */
-  gap: clamp(1.5rem, 4vh, 2.5rem);
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.cost-wrap > * { max-width: 760px; width: 100%; }
+/* El precio ocupa toda la altura de su columna y se centra */
+.cost-price { align-self: center; }
+/* El footer va debajo de todo, centrado */
+.slide.pricing .footer { margin-top: 1.5rem; width: 100%; }
 /* Precio de suscripción destacado */
 .cost-price {
   background: var(--steel-deep);
@@ -919,8 +924,8 @@ img { max-width: 100%; display: block; }
 /* Las dos tablas lado a lado */
 .cost-tables {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 3vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(.8rem, 2vw, 1.4rem);
 }
 .cost-table {
   background: var(--cream);
@@ -1098,6 +1103,7 @@ img { max-width: 100%; display: block; }
   .callsms__title { font-size: 1.4rem; }
   .sol2__grid { grid-template-columns: 1fr; }
   .sol2__title { font-size: 1.4rem; }
+  .cost-wrap { grid-template-columns: 1fr; }
   .cost-tables { grid-template-columns: 1fr; }
   .cost-table__t { font-size: .85rem; }
   .cost-table__t th, .cost-table__t td { padding: .45rem .6rem; }
