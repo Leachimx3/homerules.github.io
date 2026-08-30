@@ -383,11 +383,19 @@ img { max-width: 100%; display: block; }
 /* El JS añade .sol-on para mostrar cada frase en su turno */
 .sol-intro__phrase.sol-on { opacity: 1; transform: scale(1); }
 
-/* El contenido siempre visible detrás; la intro lo tapa al inicio */
+/* El contenido siempre visible detrás; la intro lo tapa al inicio.
+   Ocupa toda la altura disponible y centra su contenido. */
 .sol-content {
   opacity: 1;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+/* En Solución, las tarjetas aprovechan más alto */
+.slide.solution .risks--duo .risk { height: clamp(240px, 55vh, 520px); }
+.slide.solution .risks--duo { max-width: 1000px; }
 
 /* ---------- Solución (tarjetas) ---------- */
 .solution__intro,
