@@ -871,14 +871,15 @@ img { max-width: 100%; display: block; }
 }
 
 /* ---------- Costos (tablas + precio destacado) ---------- */
+/* La sección de costos usa todo el ancho para poder alinear a la derecha */
+.slide.pricing > .cost-wrap { max-width: none; width: 100%; }
 .cost-wrap {
-  max-width: 1000px;
-  margin-left: auto;           /* alinea el bloque de costos a la derecha */
-  margin-right: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;       /* precio y tablas pegados a la derecha */
   gap: clamp(1.5rem, 4vh, 2.5rem);
 }
+.cost-wrap > * { max-width: 760px; width: 100%; }
 /* Precio de suscripción destacado */
 .cost-price {
   background: var(--steel-deep);
