@@ -184,9 +184,37 @@ document.addEventListener("keydown", (e) => {
 /* =========================================================
    SOLUCIÓN: intro animada (frases) que da paso al contenido
    ========================================================= */
-const solutionSlide = document.querySelector("[data-solution]");
 const solIntro = document.getElementById("solIntro");
-if (solutionSlide && solIntro) {
-  // La intro corre en bucle con CSS. Un clic la oculta definitivamente.
-  solIntro.addEventListener("click", () => solutionSlide.classList.add("is-done"));
+if (solIntro) {
+  const p1 = solIntro.querySelector(".sol-intro__phrase--1");
+  const p2 = solIntro.querySelector(".sol-intro__phrase--2");
+  const timers = [];
+  let skipped = false;
+
+  const clearT = () => { timers.forEach(clearTimeout); timers.length = 0; };
+  const on = (el) => el && el.classList.add("sol-on");
+  const off = (el) => el && el.classList.remove("sol-on");
+
+  // Secuencia en bucle: frase 1 -> frase 2 -> pausa -> repite
+  const loop = () => {
+    if (skipped) return;
+    clearT();
+    off(p1); off(p2);
+    timers.push(setTimeout(() => on(p1), 200));     // aparece frase 1
+    timers.push(setTimeout(() => off(p1), 3000));   // se va frase 1
+    timers.push(setTimeout(() => on(p2), 3400));    // aparece frase 2
+    timers.push(setTimeout(() => off(p2), 6200));   // se va frase 2
+    timers.push(setTimeout(loop, 7000));            // repite
+  };
+
+  // Saltar: oculta la intro y detiene la secuencia
+  const skip = () => {
+    skipped = true;
+    clearT();
+    solIntro.classList.add("sol-hide");
+  };
+  solIntro.addEventListener("click", skip);
+
+  // Arranca el bucle (funciona con o sin reduce-motion porque usa transiciones)
+  loop();
 }

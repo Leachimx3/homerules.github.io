@@ -343,8 +343,8 @@ img { max-width: 100%; display: block; }
 }
 
 /* Capa de intro a pantalla completa, fondo oscuro estilo terminal.
-   Corre en BUCLE con animación CSS pura: no depende de JS ni de observers,
-   así que siempre se ve al llegar a la sección. */
+   La visibilidad la controla el JS con clases + TRANSICIONES (no animation),
+   así funciona también con "reducir movimiento" activado. */
 .sol-intro {
   position: absolute;
   inset: 0;
@@ -356,10 +356,10 @@ img { max-width: 100%; display: block; }
   padding: 1.5rem;
   background:
     radial-gradient(ellipse at 50% 50%, #143b1f 0%, #0a1f10 70%, #060d08 100%);
-  animation: solIntroCycle 12s linear infinite;
+  transition: opacity .5s ease;
 }
-/* Al saltar/terminar (clic), el JS oculta la intro definitivamente */
-.slide.solution.is-done .sol-intro { display: none; }
+/* Cuando termina la intro, se oculta */
+.sol-intro.sol-hide { opacity: 0; pointer-events: none; }
 
 .sol-intro__scanlines {
   position: absolute; inset: 0;
@@ -377,42 +377,16 @@ img { max-width: 100%; display: block; }
   color: var(--amber);
   text-shadow: 0 0 12px rgba(242,193,78,.7), 0 0 34px rgba(242,193,78,.4);
   opacity: 0;
+  transform: scale(.92);
+  transition: opacity .45s ease, transform .45s ease;
 }
-/* Cada frase aparece en su ventana de tiempo, en bucle de 12s */
-.sol-intro__phrase--1 { animation: solP1 12s ease-in-out infinite; }
-.sol-intro__phrase--2 { animation: solP2 12s ease-in-out infinite; }
-/* La capa oscura se desvanece durante la fase de contenido y vuelve */
-@keyframes solIntroCycle {
-  0%   { opacity: 1; visibility: visible; }
-  46%  { opacity: 1; visibility: visible; }
-  50%  { opacity: 0; visibility: hidden; }
-  96%  { opacity: 0; visibility: hidden; }
-  100% { opacity: 1; visibility: visible; }
-}
-@keyframes solP1 {
-  0%  { opacity: 0; transform: scale(.85); }
-  6%  { opacity: 1; transform: scale(1); }
-  20% { opacity: 1; transform: scale(1); }
-  25% { opacity: 0; transform: scale(1.1); }
-  100%{ opacity: 0; }
-}
-@keyframes solP2 {
-  25% { opacity: 0; transform: scale(.85); }
-  31% { opacity: 1; transform: scale(1); }
-  44% { opacity: 1; transform: scale(1); }
-  49% { opacity: 0; transform: scale(1.1); }
-  100%{ opacity: 0; }
-}
+/* El JS añade .sol-on para mostrar cada frase en su turno */
+.sol-intro__phrase.sol-on { opacity: 1; transform: scale(1); }
 
 /* El contenido siempre visible detrás; la intro lo tapa al inicio */
 .sol-content {
   opacity: 1;
   width: 100%;
-}
-
-/* Con "reducir movimiento": sin intro, contenido directo */
-@media (prefers-reduced-motion: reduce) {
-  .sol-intro { display: none; }
 }
 
 /* ---------- Solución (tarjetas) ---------- */
