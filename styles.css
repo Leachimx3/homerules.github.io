@@ -411,14 +411,17 @@ img { max-width: 100%; display: block; }
   width: 100%;
 }
 
-/* ---------- Solución (detalle): estética terminal Pip-Boy verde ---------- */
-:root { --term-green: #38f08a; --term-green-dim: #1f8a4d; }
+/* ---------- Solución (detalle): estética terminal ámbar ---------- */
+:root { --term-green: #f2c14e; --term-green-dim: #a97e1e; }
 
 .slide.solution2 {
   position: relative;
-  background:
-    radial-gradient(ellipse at 50% 45%, #0f3a1f 0%, #08240f 70%, #050f08 100%);
-  overflow: hidden;
+  /* Fondo uniforme (color sólido + gradiente sutil que no se parte al scrollear) */
+  background-color: #140e05;
+  background-image:
+    radial-gradient(ellipse at 50% 40%, rgba(52,37,11,0.85) 0%, rgba(20,14,5,0) 75%);
+  background-repeat: no-repeat;
+  background-attachment: local;
 }
 /* Scanlines + brillo CRT sobre toda la sección */
 .slide.solution2::before {
@@ -431,15 +434,15 @@ img { max-width: 100%; display: block; }
 .slide.solution2::after {
   content: "";
   position: absolute; inset: 0;
-  box-shadow: inset 0 0 140px rgba(0,0,0,.7), inset 0 0 50px rgba(56,240,138,.15);
+  box-shadow: inset 0 0 140px rgba(0,0,0,.7), inset 0 0 50px rgba(242,193,78,.15);
   pointer-events: none;
   z-index: 2;
 }
-/* El encabezado de la sección en verde terminal */
+/* El encabezado de la sección en ámbar terminal */
 .slide.solution2 .section__eyebrow { color: var(--term-green); position: relative; z-index: 3; }
 .slide.solution2 .section__title {
   color: var(--term-green);
-  text-shadow: 0 0 8px rgba(56,240,138,.7), 0 0 22px rgba(56,240,138,.4);
+  text-shadow: 0 0 8px rgba(242,193,78,.7), 0 0 22px rgba(242,193,78,.4);
   position: relative; z-index: 3;
 }
 .slide.solution2 .section__title::before { color: var(--term-green); }  /* el "> " */
@@ -452,7 +455,7 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-type);
   font-size: clamp(.95rem, 2vw, 1.15rem);
   color: var(--term-green);
-  text-shadow: 0 0 6px rgba(56,240,138,.4);
+  text-shadow: 0 0 6px rgba(242,193,78,.4);
   position: relative; z-index: 3;
 }
 .sol2__grid {
@@ -465,38 +468,38 @@ img { max-width: 100%; display: block; }
 }
 /* Cada tarjeta parece una ventana de terminal */
 .sol2__card {
-  background: rgba(8, 32, 16, 0.6);
+  background: rgba(40, 28, 8, 0.55);
   border: 2px solid var(--term-green-dim);
   border-radius: 4px;
   padding: clamp(1.1rem, 2.5vh, 1.7rem) 1.4rem;
   color: var(--term-green);
   font-family: var(--font-type);
-  box-shadow: 0 0 14px rgba(56,240,138,.12), inset 0 0 20px rgba(56,240,138,.06);
+  box-shadow: 0 0 14px rgba(242,193,78,.12), inset 0 0 20px rgba(242,193,78,.06);
   transition: box-shadow .2s ease, transform .2s ease;
 }
 .sol2__card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 22px rgba(56,240,138,.35), inset 0 0 24px rgba(56,240,138,.1);
+  box-shadow: 0 0 22px rgba(242,193,78,.35), inset 0 0 24px rgba(242,193,78,.1);
   border-color: var(--term-green);
 }
 .sol2__icon {
   font-size: 1.8rem;
   margin-bottom: .4rem;
-  filter: grayscale(1) brightness(1.6) sepia(1) hue-rotate(75deg) saturate(4);
+  filter: grayscale(1) brightness(1.5) sepia(1) hue-rotate(5deg) saturate(6);
 }
 .sol2__title {
   font-family: var(--font-type);
   font-size: 1.25rem;
   letter-spacing: 1px;
   color: var(--term-green);
-  text-shadow: 0 0 8px rgba(56,240,138,.6);
+  text-shadow: 0 0 8px rgba(242,193,78,.6);
   margin-bottom: .4rem;
 }
 .sol2__title::before { content: "> "; opacity: .8; }
 .sol2__card p {
   font-size: .9rem;
   line-height: 1.45;
-  color: #b6f5cf;
+  color: #f6e6c0;
 }
 
 /* ---------- Solución (tarjetas) ---------- */
