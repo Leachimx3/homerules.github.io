@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <link rel="stylesheet" href="styles.css?v=18" />
 </head>
 <body>
   <!-- Barra de navegación -->
@@ -247,7 +247,6 @@
   <!-- 4. CÓMO FUNCIONA -->
   <section class="slide section howitworks" id="como">
     <div class="section__head reveal">
-      <p class="section__eyebrow">// PASO A PASO</p>
       <h2 class="section__title">Cómo funciona</h2>
     </div>
     <ol class="steps">
@@ -282,43 +281,62 @@
       <h2 class="section__title">Costos</h2>
     </div>
     <div class="pricing__grid">
-      <article class="plan reveal">
-        <h3 class="plan__name">Básico</h3>
-        <p class="plan__price"><span>$0</span>/mes</p>
-        <ul class="plan__features">
-          <li>Característica incluida</li>
-          <li>Característica incluida</li>
-          <li>Característica incluida</li>
-        </ul>
-        <a href="#" class="btn btn--ghost">Elegir</a>
-      </article>
-      <article class="plan plan--featured reveal">
-        <div class="plan__tag">Popular</div>
-        <h3 class="plan__name">Pro</h3>
-        <p class="plan__price"><span>$19</span>/mes</p>
-        <ul class="plan__features">
-          <li>Todo lo del plan Básico</li>
-          <li>Característica avanzada</li>
-          <li>Soporte prioritario</li>
-        </ul>
-        <a href="#" class="btn btn--primary">Elegir</a>
-      </article>
-      <article class="plan reveal">
-        <h3 class="plan__name">Empresa</h3>
-        <p class="plan__price"><span>$49</span>/mes</p>
-        <ul class="plan__features">
-          <li>Todo lo del plan Pro</li>
-          <li>Usuarios ilimitados</li>
-          <li>Atención dedicada</li>
-        </ul>
-        <a href="#" class="btn btn--ghost">Elegir</a>
-      </article>
+    <div class="cost-wrap">
+      <!-- Precio de suscripción destacado -->
+      <div class="cost-price reveal">
+        <span class="cost-price__label">Suscripción mensual</span>
+        <span class="cost-price__amount">$99 <small>MXN</small></span>
+        <span class="cost-price__per">por mes</span>
+      </div>
+
+      <div class="cost-tables">
+        <!-- Tabla 1: costo total según número de menores -->
+        <div class="cost-table reveal">
+          <h3 class="cost-table__title">Costo total estimado</h3>
+          <table class="cost-table__t">
+            <thead>
+              <tr>
+                <th>Menores</th>
+                <th>Supabase</th>
+                <th>Gemini</th>
+                <th>Total aprox.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>100</td><td>$0</td><td>$1.80</td><td>$1.80/mes</td></tr>
+              <tr><td>1 000</td><td>$0–25</td><td>$18</td><td>$18–43/mes</td></tr>
+              <tr><td>10 000</td><td>$25</td><td>$180</td><td>$205/mes</td></tr>
+              <tr><td>100 000</td><td>$25+</td><td>$1 800</td><td>$1 825+/mes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tabla 2: desglose del valor propuesto -->
+        <div class="cost-table reveal">
+          <h3 class="cost-table__title">Valor propuesto</h3>
+          <table class="cost-table__t">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Valor aprox.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Infraestructura Supabase</td><td>$0.01–$0.05</td></tr>
+              <tr><td>Gemini</td><td>~$0.018</td></tr>
+              <tr><td>Mantenimiento / soporte</td><td>$20</td></tr>
+              <tr><td>Margen empresarial</td><td>$30</td></tr>
+              <tr><td>Valor percibido de protección</td><td>$40</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
     <footer class="footer">
-      <p>© <span id="year"></span> Tu Nombre — Hecho con estilo retro.</p>
+      <p>© <span id="year"></span> Home Rules — Hecho con estilo retro.</p>
     </footer>
   </section>
-
   </main><!-- /.deck -->
 
   <!-- Intro animada de Solución: fuera del deck para cubrir toda la pantalla -->
@@ -370,6 +388,6 @@
     </div>
   </div>
 
-  <script src="main.js?v=17"></script>
+  <script src="main.js?v=18"></script>
 </body>
 </html>
