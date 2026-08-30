@@ -334,15 +334,17 @@ img { max-width: 100%; display: block; }
 }
 
 /* ---------- Solución: intro animada tipo terminal ---------- */
-/* La sección solución no usa el padding normal cuando muestra la intro */
+/* La sección solución contiene una intro superpuesta + el contenido */
 .slide.solution {
   position: relative;
-  padding: 0;
+  padding: 6rem 1.2rem 2.5rem;
   overflow: hidden;
-  justify-content: flex-start;
+  justify-content: safe center;
 }
 
-/* Capa de intro a pantalla completa, fondo oscuro estilo terminal */
+/* Capa de intro a pantalla completa, fondo oscuro estilo terminal.
+   Corre en BUCLE con animación CSS pura: no depende de JS ni de observers,
+   así que siempre se ve al llegar a la sección. */
 .sol-intro {
   position: absolute;
   inset: 0;
@@ -354,23 +356,17 @@ img { max-width: 100%; display: block; }
   padding: 1.5rem;
   background:
     radial-gradient(ellipse at 50% 50%, #143b1f 0%, #0a1f10 70%, #060d08 100%);
-  transition: opacity .6s ease, visibility .6s ease;
+  animation: solIntroCycle 12s linear infinite;
 }
-/* Cuando termina la secuencia, la intro desaparece */
-.slide.solution.is-done .sol-intro {
-  opacity: 0;
-  visibility: hidden;
-}
-/* Scanlines sobre la intro */
+/* Al saltar/terminar (clic), el JS oculta la intro definitivamente */
+.slide.solution.is-done .sol-intro { display: none; }
+
 .sol-intro__scanlines {
   position: absolute; inset: 0;
   background: repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0 2px, transparent 2px 4px);
   pointer-events: none;
-  animation: scan 8s linear infinite;
 }
-/* Frases gigantes en amarillo con glow tipo fósforo.
-   La visibilidad la controla el JS con la clase .is-showing (funciona
-   también con "reducir movimiento" porque no depende solo de keyframes). */
+/* Frases gigantes en amarillo con glow tipo fósforo */
 .sol-intro__phrase {
   position: absolute;
   max-width: 90%;
@@ -381,26 +377,43 @@ img { max-width: 100%; display: block; }
   color: var(--amber);
   text-shadow: 0 0 12px rgba(242,193,78,.7), 0 0 34px rgba(242,193,78,.4);
   opacity: 0;
-  transform: scale(.9);
-  transition: opacity .5s ease, transform .5s ease;
 }
-.sol-intro__phrase.is-showing {
-  opacity: 1;
-  transform: scale(1);
+/* Cada frase aparece en su ventana de tiempo, en bucle de 12s */
+.sol-intro__phrase--1 { animation: solP1 12s ease-in-out infinite; }
+.sol-intro__phrase--2 { animation: solP2 12s ease-in-out infinite; }
+/* La capa oscura se desvanece durante la fase de contenido y vuelve */
+@keyframes solIntroCycle {
+  0%   { opacity: 1; visibility: visible; }
+  46%  { opacity: 1; visibility: visible; }
+  50%  { opacity: 0; visibility: hidden; }
+  96%  { opacity: 0; visibility: hidden; }
+  100% { opacity: 1; visibility: visible; }
+}
+@keyframes solP1 {
+  0%  { opacity: 0; transform: scale(.85); }
+  6%  { opacity: 1; transform: scale(1); }
+  20% { opacity: 1; transform: scale(1); }
+  25% { opacity: 0; transform: scale(1.1); }
+  100%{ opacity: 0; }
+}
+@keyframes solP2 {
+  25% { opacity: 0; transform: scale(.85); }
+  31% { opacity: 1; transform: scale(1); }
+  44% { opacity: 1; transform: scale(1); }
+  49% { opacity: 0; transform: scale(1.1); }
+  100%{ opacity: 0; }
 }
 
-/* La hoja de contenido empieza oculta y aparece al terminar la intro */
+/* El contenido siempre visible detrás; la intro lo tapa al inicio */
 .sol-content {
-  opacity: 0;
-  transition: opacity .7s ease;
-  padding: 6rem 1.2rem 2.5rem;
+  opacity: 1;
   width: 100%;
 }
-.slide.solution.is-done .sol-content { opacity: 1; }
-.slide.solution.is-done { justify-content: safe center; display: flex; flex-direction: column; }
 
-/* Nota: la intro de solución es contenido esencial, no decorativo,
-   así que se muestra también con "reducir movimiento" (el JS la controla). */
+/* Con "reducir movimiento": sin intro, contenido directo */
+@media (prefers-reduced-motion: reduce) {
+  .sol-intro { display: none; }
+}
 
 /* ---------- Solución (tarjetas) ---------- */
 .solution__intro,

@@ -187,43 +187,6 @@ document.addEventListener("keydown", (e) => {
 const solutionSlide = document.querySelector("[data-solution]");
 const solIntro = document.getElementById("solIntro");
 if (solutionSlide && solIntro) {
-  const solIndex = slides.indexOf(solutionSlide);
-  const phrase1 = solIntro.querySelector(".sol-intro__phrase--1");
-  const phrase2 = solIntro.querySelector(".sol-intro__phrase--2");
-  const timers = [];
-
-  const clearTimers = () => { timers.forEach(clearTimeout); timers.length = 0; };
-  const show = (el) => el && el.classList.add("is-showing");
-  const hide = (el) => el && el.classList.remove("is-showing");
-
-  const finishIntro = () => {
-    clearTimers();
-    hide(phrase1); hide(phrase2);
-    solutionSlide.classList.add("is-done");
-  };
-
-  // Secuencia: frase 1 aparece, se va, aparece frase 2, se va, muestra contenido
-  const runIntro = () => {
-    clearTimers();
-    solutionSlide.classList.remove("is-done");
-    hide(phrase1); hide(phrase2);
-
-    timers.push(setTimeout(() => show(phrase1), 150));    // aparece frase 1
-    timers.push(setTimeout(() => hide(phrase1), 2600));   // desaparece frase 1
-    timers.push(setTimeout(() => show(phrase2), 3000));   // aparece frase 2
-    timers.push(setTimeout(() => hide(phrase2), 5400));   // desaparece frase 2
-    timers.push(setTimeout(finishIntro, 5900));           // muestra contenido
-  };
-
-  // El carrusel avisa cuando cambia la slide activa
-  window.__onSlideChange = (idx) => {
-    if (idx === solIndex) runIntro();
-    else { clearTimers(); solutionSlide.classList.remove("is-done"); }
-  };
-
-  // Saltar la intro con un clic
-  solIntro.addEventListener("click", finishIntro);
-
-  // Si arrancamos ya en la slide de solución
-  if (solIndex === 0) runIntro();
+  // La intro corre en bucle con CSS. Un clic la oculta definitivamente.
+  solIntro.addEventListener("click", () => solutionSlide.classList.add("is-done"));
 }
