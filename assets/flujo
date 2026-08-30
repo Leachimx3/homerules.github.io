@@ -1,0 +1,101 @@
+## 11. Diagrama de Flujo de Usuario
+
+### 11.1 Flujo del Padre
+
+```
+┌──────────────┐
+│  Bienvenida  │
+└──────┬───────┘
+       │
+       ├─────────────► Registrarse ──► Selección rol (Padre) ──► Email + contraseña ──► OTP ──┐
+       │                                                                                       │
+       └─────────────► Iniciar sesión ──► Selección rol (Padre) ──► Email + contraseña ────────┤
+                                                                                               │
+                                                                                               ▼
+                                                                              ┌────────────────────────────┐
+                                                                              │   Panel del Padre          │
+                                                                              │  ┌──────────────────────┐  │
+                                                                              │  │ Token de vinculación │  │
+                                                                              │  ├──────────────────────┤  │
+                                                                              │  │ Hijos vinculados     │  │
+                                                                              │  ├──────────────────────┤  │
+                                                                              │  │ Herramientas:        │  │
+                                                                              │  │  • Bloquear Apps     │  │
+                                                                              │  │  • Time Out          │  │
+                                                                              │  │  • Reportes          │  │
+                                                                              │  │  • Ubicación         │  │
+                                                                              │  │  • Contactos         │  │
+                                                                              │  │  • Bloquear URLs     │  │
+                                                                              │  └──────────────────────┘  │
+                                                                              └────────────────────────────┘
+                                                                                          │
+                                                        Recibe alertas de riesgo en tiempo real (Realtime)
+```
+
+### 11.2 Flujo del Hijo
+
+```
+┌──────────────┐
+│  Bienvenida  │
+└──────┬───────┘
+       │
+       └──► Iniciar sesión ──► Selección rol (Hijo) ──► Nombre + Token del padre
+                                                              │
+                                                              ▼
+                                                   ┌──────────────────────┐
+                                                   │  Solicitud enviada    │
+                                                   │  (esperando aprobación)│
+                                                   └──────────┬───────────┘
+                                                              │
+                                          El padre aprueba (vía Realtime)
+                                                              │
+                                                              ▼
+                                                   ┌──────────────────────┐
+                                                   │  Panel del Hijo       │
+                                                   │  • Estado protección  │
+                                                   │  • Supervisado por    │
+                                                   │  • Apps bloqueadas    │
+                                                   └──────────┬───────────┘
+                                                              │
+                        ┌─────────────────────────────────────┼─────────────────────────────────┐
+                        ▼                                       ▼                                 ▼
+              Activar Accesibilidad              Activar Teclado Seguro             Servicios en background:
+              (bloqueo apps/URLs)                (captura texto → Gemini)          • Reporte de ubicación
+                                                                                    • Monitor de llamadas
+                                                                                    • Reporte de uso de apps
+```
+
+### 11.3 Flujo de Evaluación de Riesgo
+
+```
+El hijo escribe texto
+        │
+        ▼
+KeywordMonitorIME captura ──► keyword_alerts.txt
+        │
+        ▼ (cada 30s)
+KeywordMonitorService lee el archivo
+        │
+        ▼
+GeminiRiskService.evaluateText()
+        │
+        ├──► Pre-filtro de categorías por keywords
+        ├──► Construye prompt + historial (10 mensajes)
+        └──► Envía a Gemini 3.6 Flash
+                    │
+                    ▼
+        Respuesta JSON: { categorias, riesgo_maximo, recomendacion_hijo, resumen_padre }
+                    │
+              ¿riesgo >= 3?
+              /          \
+           SÍ            NO
+            │             │
+            │             └──► Sin acción
+            ▼
+    ┌───────────────┬────────────────────┐
+    ▼               ▼
+Notificación    insert_risk_alert (RPC)
+local al hijo   → Supabase risk_alerts
+(consejo)              │
+                       ▼ (Realtime)
+              Notificación al padre

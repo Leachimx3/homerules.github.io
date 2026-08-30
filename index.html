@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
   <!-- Barra de navegación -->
@@ -245,33 +245,119 @@
   </section>
 
   <!-- 4. CÓMO FUNCIONA -->
-  <section class="slide section howitworks" id="como">
+  <section class="slide section howitworks solution2" id="como">
     <div class="section__head reveal">
+      <p class="section__eyebrow">// PASO A PASO</p>
       <h2 class="section__title">Cómo funciona</h2>
     </div>
-    <ol class="steps">
-      <li class="step reveal">
-        <div class="step__num">1</div>
-        <div class="step__body">
-          <h3 class="step__title">Primer paso</h3>
-          <p>Describe la primera acción que hace el usuario o el sistema.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step__num">2</div>
-        <div class="step__body">
-          <h3 class="step__title">Segundo paso</h3>
-          <p>Qué ocurre después. Mantén cada paso claro y breve.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step__num">3</div>
-        <div class="step__body">
-          <h3 class="step__title">Tercer paso</h3>
-          <p>El resultado final o el valor que recibe el usuario.</p>
-        </div>
-      </li>
-    </ol>
+
+    <div class="flow reveal">
+      <!-- Botones para elegir el diagrama -->
+      <div class="flow__tabs" role="tablist">
+        <button class="flow__tab is-active" data-flow="padre">Flujo del Padre</button>
+        <button class="flow__tab" data-flow="hijo">Flujo del Hijo</button>
+        <button class="flow__tab" data-flow="riesgo">Evaluación de Riesgo</button>
+      </div>
+
+      <!-- Diagramas ASCII en consola -->
+      <div class="flow__screen">
+        <pre class="flow__diagram is-active" data-flow="padre">
+┌──────────────┐
+│  Bienvenida  │
+└──────┬───────┘
+       │
+       ├───► Registrarse ──► Rol (Padre) ──► Email + contraseña ──► OTP ──┐
+       │                                                                   │
+       └───► Iniciar sesión ──► Rol (Padre) ──► Email + contraseña ────────┤
+                                                                           │
+                                                                           ▼
+                                                    ┌────────────────────────────┐
+                                                    │      Panel del Padre        │
+                                                    │  ┌──────────────────────┐   │
+                                                    │  │ Token de vinculación │   │
+                                                    │  ├──────────────────────┤   │
+                                                    │  │ Hijos vinculados     │   │
+                                                    │  ├──────────────────────┤   │
+                                                    │  │ Herramientas:        │   │
+                                                    │  │  • Bloquear Apps     │   │
+                                                    │  │  • Time Out          │   │
+                                                    │  │  • Reportes          │   │
+                                                    │  │  • Ubicación         │   │
+                                                    │  │  • Contactos         │   │
+                                                    │  │  • Bloquear URLs     │   │
+                                                    │  └──────────────────────┘   │
+                                                    └────────────────────────────┘
+                                                                 │
+                              Recibe alertas de riesgo en tiempo real (Realtime)
+        </pre>
+
+        <pre class="flow__diagram" data-flow="hijo">
+┌──────────────┐
+│  Bienvenida  │
+└──────┬───────┘
+       │
+       └──► Iniciar sesión ──► Rol (Hijo) ──► Nombre + Token del padre
+                                                    │
+                                                    ▼
+                                       ┌─────────────────────────┐
+                                       │   Solicitud enviada     │
+                                       │ (esperando aprobación)  │
+                                       └───────────┬─────────────┘
+                                                   │
+                                 El padre aprueba (vía Realtime)
+                                                   │
+                                                   ▼
+                                       ┌─────────────────────────┐
+                                       │     Panel del Hijo      │
+                                       │  • Estado protección    │
+                                       │  • Supervisado por      │
+                                       │  • Apps bloqueadas      │
+                                       └───────────┬─────────────┘
+                                                   │
+                 ┌─────────────────────────────────┼─────────────────────────────┐
+                 ▼                                  ▼                             ▼
+        Activar Accesibilidad          Activar Teclado Seguro         Servicios en background:
+        (bloqueo apps/URLs)            (captura texto → Gemini)        • Reporte de ubicación
+                                                                       • Monitor de llamadas
+                                                                       • Reporte de uso de apps
+        </pre>
+
+        <pre class="flow__diagram" data-flow="riesgo">
+El hijo escribe texto
+        │
+        ▼
+KeywordMonitorIME captura ──► keyword_alerts.txt
+        │
+        ▼ (cada 30s)
+KeywordMonitorService lee el archivo
+        │
+        ▼
+GeminiRiskService.evaluateText()
+        │
+        ├──► Pre-filtro de categorías por keywords
+        ├──► Construye prompt + historial (10 mensajes)
+        └──► Envía a Gemini 3.6 Flash
+                    │
+                    ▼
+     Respuesta JSON: { categorias, riesgo_maximo,
+                       recomendacion_hijo, resumen_padre }
+                    │
+              ¿riesgo >= 3?
+              /          \
+           SÍ            NO
+            │             │
+            │             └──► Sin acción
+            ▼
+    ┌───────────────┬────────────────────┐
+    ▼               ▼
+Notificación    insert_risk_alert (RPC)
+local al hijo   → Supabase risk_alerts
+(consejo)              │
+                       ▼ (Realtime)
+              Notificación al padre
+        </pre>
+      </div>
+    </div>
   </section>
 
   <!-- 5. COSTOS -->
@@ -336,7 +422,7 @@
     </div>
 
     <footer class="footer">
-      <p>© <span id="year"></span> Home Rules — Hecho con estilo retro.</p>
+      <p>© <span id="year"></span>Home Rules - Poryecto WomenCISO Gen 4</p>
     </footer>
   </section>
   </main><!-- /.deck -->
@@ -390,6 +476,6 @@
     </div>
   </div>
 
-  <script src="main.js?v=19"></script>
+  <script src="main.js?v=20"></script>
 </body>
 </html>

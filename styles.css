@@ -506,6 +506,63 @@ img { max-width: 100%; display: block; }
   color: #f6e6c0;
 }
 
+/* ---------- Cómo funciona: diagramas de flujo en consola ---------- */
+.flow {
+  position: relative;
+  z-index: 3;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+/* Pestañas para elegir diagrama */
+.flow__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.flow__tab {
+  font-family: var(--font-type);
+  font-size: .85rem;
+  letter-spacing: 1px;
+  color: var(--term-green);
+  background: rgba(40, 28, 8, 0.55);
+  border: 2px solid var(--term-green-dim);
+  border-radius: 4px;
+  padding: .45rem 1rem;
+  cursor: pointer;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.flow__tab:hover { background: rgba(242,193,78,.12); }
+.flow__tab.is-active {
+  background: rgba(242,193,78,.18);
+  border-color: var(--term-green);
+  box-shadow: 0 0 12px rgba(242,193,78,.35);
+}
+/* Pantalla de la consola con los diagramas */
+.flow__screen {
+  border: 2px solid var(--term-green-dim);
+  border-radius: 6px;
+  background: rgba(20, 14, 5, 0.6);
+  box-shadow: 0 0 20px rgba(242,193,78,.12), inset 0 0 40px rgba(0,0,0,.45);
+  padding: 1rem;
+  overflow: auto;                /* scroll si el diagrama es muy ancho */
+  max-height: 60vh;
+}
+.flow__diagram {
+  display: none;
+  margin: 0;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: clamp(.5rem, 1.15vw, .8rem);
+  line-height: 1.25;
+  color: var(--term-green);
+  text-shadow: 0 0 6px rgba(242,193,78,.4);
+  white-space: pre;              /* preserva la alineación ASCII */
+  tab-size: 2;
+}
+.flow__diagram.is-active { display: block; }
+
 /* ---------- Solución (tarjetas) ---------- */
 .solution__intro,
 .problem__lead {

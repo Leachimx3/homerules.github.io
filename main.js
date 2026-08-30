@@ -237,3 +237,21 @@ if (solIntro && solutionSlide) {
   // Si arrancamos ya en la slide de solución
   if (solIndex === 0) startIntro();
 }
+
+
+/* =========================================================
+   CÓMO FUNCIONA: pestañas de diagramas de flujo
+   ========================================================= */
+const flowTabs = document.querySelectorAll(".flow__tab");
+const flowDiagrams = document.querySelectorAll(".flow__diagram");
+if (flowTabs.length && flowDiagrams.length) {
+  flowTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.flow;
+      flowTabs.forEach((t) => t.classList.toggle("is-active", t === tab));
+      flowDiagrams.forEach((d) =>
+        d.classList.toggle("is-active", d.dataset.flow === key)
+      );
+    });
+  });
+}
