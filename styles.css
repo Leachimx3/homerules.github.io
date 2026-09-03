@@ -821,6 +821,22 @@ img { max-width: 100%; display: block; }
   margin-bottom: 1rem;
 }
 .modal__content p { margin-bottom: .9rem; }
+.modal__content a {
+  color: #b7472a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  transition: color .15s ease, background .15s ease;
+}
+.modal__content a:hover {
+  color: var(--ink);
+  background: var(--amber);
+}
+.modal__content a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
 @keyframes modalIn {
   from { opacity: 0; transform: translateY(20px) scale(.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
