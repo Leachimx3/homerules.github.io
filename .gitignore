@@ -11,3 +11,5 @@ desktop.ini
 # Logs y temporales
 *.log
 node_modules/
+# Video pesado (se aloja en Google Drive, no en el repo)
+assets/video.mp4

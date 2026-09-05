@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <link rel="stylesheet" href="styles.css?v=28" />
 </head>
 <body>
   <!-- Barra de navegación -->
@@ -22,6 +22,7 @@
         <a href="#problema">Problema</a>
         <a href="#solucion">Solución</a>
         <a href="#como">Cómo funciona</a>
+        <a href="#video">Video</a>
         <a href="#costos">Costos</a>
       </nav>
       <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
@@ -355,6 +356,32 @@ local al hijo   → Supabase risk_alerts
                        ▼ (Realtime)
               Notificación al padre
         </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b. VIDEO -->
+  <section class="slide section solution2 videosec" id="video">
+    <div class="section__head reveal">
+      <h2 class="section__title">Míralo en acción</h2>
+    </div>
+
+    <p class="sol2__lead reveal">
+      Un recorrido en video por Home Rules: cómo el monitoreo, las alertas y el
+      control funcionan en el día a día para proteger al menor.
+    </p>
+
+    <div class="videosec__frame reveal">
+      <div class="videosec__screen">
+        <!-- Video alojado en Google Drive.
+             Reemplaza VIDEO_ID por el ID de tu archivo de Drive
+             (la parte entre /d/ y /view del enlace para compartir).
+             El archivo debe estar compartido como "Cualquier persona con el enlace". -->
+        <iframe class="videosec__video"
+          src="https://drive.google.com/file/d/VIDEO_ID/preview"
+          title="Home Rules en acción"
+          allow="autoplay; encrypted-media"
+          allowfullscreen></iframe>
       </div>
     </div>
   </section>

@@ -511,6 +511,41 @@ img { max-width: 100%; display: block; }
   color: #f6e6c0;
 }
 
+/* ---------- Video (mismo look de terminal que Monitorea y controla) ---------- */
+.videosec__frame {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* La "ventana de terminal" que enmarca el video */
+.videosec__screen {
+  position: relative;
+  background: rgba(40, 28, 8, 0.55);
+  border: 2px solid var(--term-green-dim);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 0 22px rgba(242,193,78,.25), inset 0 0 24px rgba(242,193,78,.08);
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+.videosec__screen:hover {
+  box-shadow: 0 0 30px rgba(242,193,78,.4), inset 0 0 24px rgba(242,193,78,.12);
+  border-color: var(--term-green);
+}
+/* El video en sí, en 16:9 */
+.videosec__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--term-green-dim);
+  border-radius: 6px;
+  background: #000;
+  object-fit: cover;
+}
+/* Cuando el video es un iframe (Google Drive / YouTube) */
+iframe.videosec__video { border-width: 1px; }
+
 /* ---------- Cómo funciona: diagramas de flujo en consola ---------- */
 .flow {
   position: relative;
